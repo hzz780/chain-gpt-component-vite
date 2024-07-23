@@ -1,0 +1,9 @@
+@import '@styles/tailwind.init.css';
+
+.chatBlock {
+    @apply block;
+}
+
+.chatHidden {
+    @apply hidden;
+}
