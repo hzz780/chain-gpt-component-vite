@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import MyComponentVite from './components/Demo/MyComponentVite';
 import { ChatBoxButton } from './components/ChainGPTChat/ChatBoxButton';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
 import './App.css'
 import {DotTyping} from './components/ChainGPTChat/components/DotTyping';
 
@@ -15,19 +15,20 @@ function App() {
         <DotTyping loading={true}/>
         <div className="chainGPT-container">
           <ChatBoxButton
-            apiUri="/api/demos/chaingpt"
+            // apiUri="/api/demos/chaingpt"
+            apiUri="http://localhost:5200/api/chaingpt"
           />
         </div>
       </div>
       <MyComponentVite />
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
+      {/*<div>*/}
+      {/*  <a href="https://vitejs.dev" target="_blank">*/}
+      {/*    <img src={viteLogo} className="logo" alt="Vite logo" />*/}
+      {/*  </a>*/}
+      {/*  <a href="https://react.dev" target="_blank">*/}
+      {/*    <img src={reactLogo} className="logo react" alt="React logo" />*/}
+      {/*  </a>*/}
+      {/*</div>*/}
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>

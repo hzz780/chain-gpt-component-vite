@@ -1,5 +1,16 @@
 @import '@styles/tailwind.init.css';
 
+.chatCon {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.tipCon {
+    position: absolute;
+    top: -90px;
+}
+
 .chatBlock {
     @apply block;
 }
@@ -7,3 +18,32 @@
 .chatHidden {
     @apply hidden;
 }
+
+.logo{
+    height: 64px;
+    width: 64px;
+    border-radius: 64px;
+    box-shadow: 0 4px 16px 0 #00000029;
+}
+
+.logoCon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: top 0.3s linear;
+}
+
+.logoConHidden {
+    top: 100px;
+}
+
+.chatBoxCon {
+    position: absolute;
+    top: -472px;
+    left: -291px;
+    transition: top 0.3s linear;
+}
+.chatBoxConHidden {
+    top: 90px;
+}
+

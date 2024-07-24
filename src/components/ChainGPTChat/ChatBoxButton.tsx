@@ -5,6 +5,10 @@ import {CustomChatBox} from './components/CustomChatBox/CustomChatBox.tsx';
 import styles from './style.module.css';
 import preflightStyles from '../../styles/tailwindPreflight.module.scss';
 
+export default {
+  TipBox, ChainGPTLogo, CustomChatBox, ChatBoxButton
+};
+
 export function ChatBoxButton({apiUri}: {apiUri: string}) {
   const [hiddenTip, setHiddenTip] = useState(true);
   const [hiddenChat, setHiddenChat] = useState(true);
@@ -18,15 +22,15 @@ export function ChatBoxButton({apiUri}: {apiUri: string}) {
     setReadyToShow(true);
   }, []);
 
-  return <div className={preflightStyles.tailwindContainer}>
-    { hiddenTip ? '' : readyToShow && <TipBox />}
+  return <div className={`${preflightStyles.tailwindContainer} ${styles.chatCon}`}>
+    { hiddenTip ? '' : readyToShow && <div className={styles.tipCon}><TipBox /></div>}
     <div
-      className={hiddenChat ? styles.chatBlock : styles.chatHidden}
+      className={`${styles.chatBlock} ${styles.logoCon} ${!hiddenChat && styles.logoConHidden}`}
       onClick={() => {
         setHiddenTip(true);
         setHiddenChat(false);
-      }}><ChainGPTLogo className={styles.cursorPointer}/></div>
-    <div className={!hiddenChat ? styles.chatBlock : styles.chatHidden}>
+      }}><ChainGPTLogo className={`${styles.cursorPointer} ${styles.logo}`}/></div>
+    <div className={`${styles.chatBlock} ${styles.chatBoxCon} ${hiddenChat && styles.chatBoxConHidden}`}>
       <CustomChatBox
         onClose={() => {
           setHiddenChat(true);
