@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {DotTyping} from '../DotTyping';
 import {ChatInput} from '../ChatInput/ChatInput';
 import styles from './styles.module.css';
+import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 interface IChatItem {
   text: string | React.FC;
@@ -37,35 +38,40 @@ export default function ChatBox({
     setChainList(_list);
     setSearchDisable(true);
 
-    const askChainGPT = async (question: string) => {
-      const url = apiUri; //'/api/demos/chaingpt';
-      let data;
-
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ question }),
-      });
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
+    let answerMessage = '';
+    await fetchEventSource(apiUri, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: value,
+      }),
+      onmessage(ev) {
+        answerMessage += ev.data;
+        const answer: IChatItem = {
+          text: answerMessage,
+          type: 'answer'
+        };
+        setChainList([..._list, answer]);
+        setSearchDisable(false);
+      },
+      onclose() {
+        console.log('close');
+        setSearchDisable(false);
+      },
+      onerror(err) {
+        console.error(err);
+        answerMessage = 'Please try again';
+        const answer: IChatItem = {
+          text: answerMessage,
+          type: 'answer'
+        };
+        setChainList([..._list, answer]);
+        setSearchDisable(false);
+        throw new Error(`Response Error`);
       }
-
-      const json = await response.json();
-      console.log(json);
-      data = json.data;
-      return data;
-    };
-    let answerMessage;
-    try {
-      answerMessage = await askChainGPT(value);
-    } catch (error) {
-      answerMessage = error instanceof Error ? error.message : 'Please try again';
-    }
-    const answer: IChatItem = {
-      text: answerMessage,
-      type: 'answer'
-    };
-    setChainList([..._list, answer]);
-    setSearchDisable(false);
+    });
   };
 
   console.log('chatList', chatList, JSON.stringify(chatList));

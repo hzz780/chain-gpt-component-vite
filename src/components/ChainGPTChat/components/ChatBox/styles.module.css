@@ -6,6 +6,11 @@
 
 .messageBox {
     @apply w-full h-full overflow-scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.messageBox::-webkit-scrollbar {
+    display: none;
 }
 
 /*.messageBoxOverflow {*/
