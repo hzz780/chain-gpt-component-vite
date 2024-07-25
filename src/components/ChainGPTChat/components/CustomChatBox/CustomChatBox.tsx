@@ -6,10 +6,12 @@ import styles from './styles.module.css';
 
 export function CustomChatBox({
   onClose,
-                                apiUri
+                                apiUri,
+  historyLimit = 200
                               }: {
   onClose: () => void;
   apiUri: string;
+  historyLimit?: number;
 }) {
   return <div className={styles.con}>
     <div className={styles.headerCon}>
@@ -24,6 +26,7 @@ export function CustomChatBox({
       <ChatBox
         Welcome={Welcome}
         apiUri={apiUri}
+        historyLimit={historyLimit}
       />
     </div>
     <div className={styles.imageCon}>

@@ -9,7 +9,13 @@ export default {
   TipBox, ChainGPTLogo, CustomChatBox, ChatBoxButton
 };
 
-export function ChatBoxButton({apiUri}: {apiUri: string}) {
+export function ChatBoxButton({
+                                apiUri,
+                                historyLimit = 200
+}: {
+  apiUri: string,
+  historyLimit?: number
+}) {
   const [hiddenTip, setHiddenTip] = useState(true);
   const [hiddenChat, setHiddenChat] = useState(true);
   const [readyToShow, setReadyToShow] = useState(false);
@@ -36,6 +42,7 @@ export function ChatBoxButton({apiUri}: {apiUri: string}) {
           setHiddenChat(true);
         }}
         apiUri={apiUri}
+        historyLimit={historyLimit}
       />
     </div>
   </div>

@@ -16,11 +16,13 @@ interface IChatItem {
 export default function ChatBox({
                                   defaultList = [],
                                   Welcome,
-                                  apiUri
+                                  apiUri,
+                                  historyLimit = 200
                                 }: {
   defaultList?: IChatItem[],
   Welcome?: React.FC,
   apiUri: string
+  historyLimit?: number
 }) {
   const [chatList, setChainList] = useState<IChatItem[]>(defaultList);
   const [searchDisable, setSearchDisable] = useState(false);
@@ -80,7 +82,19 @@ export default function ChatBox({
     if (bottomRef.current && 'scrollIntoView' in bottomRef.current) {
       bottomRef.current.scrollIntoView({behavior: "smooth"});
     }
+    if (chatList && chatList.length) {
+      const listToBeStored = chatList.length > historyLimit
+        ? chatList.slice(chatList.length - historyLimit) : chatList;
+      localStorage.setItem('chainGPTChatHistory', JSON.stringify(listToBeStored));
+    }
   }, [chatList]);
+
+  useEffect(() => {
+    const history = localStorage.getItem('chainGPTChatHistory');
+    if (history) {
+      setChainList(JSON.parse(history));
+    }
+  }, []);
 
   return <>
     <div className={styles.container}>
