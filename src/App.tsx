@@ -17,6 +17,7 @@ function App() {
           <ChatBoxButton
             // apiUri="/api/demos/chaingpt"
             apiUri="http://localhost:5200/api/chaingpt"
+            historyLimit={10}
           />
         </div>
       </div>
