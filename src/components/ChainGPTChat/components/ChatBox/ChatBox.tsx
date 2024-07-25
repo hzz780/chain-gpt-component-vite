@@ -26,6 +26,7 @@ export default function ChatBox({
 }) {
   const [chatList, setChainList] = useState<IChatItem[]>(defaultList);
   const [searchDisable, setSearchDisable] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onSearch = async (value: string) => {
     console.log('value: ', value);
@@ -39,6 +40,7 @@ export default function ChatBox({
     const _list = [...chatList, question];
     setChainList(_list);
     setSearchDisable(true);
+    setLoading(true);
 
     let answerMessage = '';
     await fetchEventSource(apiUri, {
@@ -55,12 +57,15 @@ export default function ChatBox({
           text: answerMessage,
           type: 'answer'
         };
-        setChainList([..._list, answer]);
-        setSearchDisable(false);
+        if (answerMessage) {
+          setSearchDisable(false);
+          setChainList([..._list, answer]);
+        }
       },
       onclose() {
         console.log('close');
         setSearchDisable(false);
+        setLoading(false);
       },
       onerror(err) {
         console.error(err);
@@ -71,6 +76,7 @@ export default function ChatBox({
         };
         setChainList([..._list, answer]);
         setSearchDisable(false);
+        setLoading(false);
         throw new Error(`Response Error`);
       }
     });
@@ -105,16 +111,15 @@ export default function ChatBox({
             {chatList.map((item, index) => (
               <div key={index}>
                 {item.type === 'question'
-                  ? <QuestionBox>{Render(item.text)}</QuestionBox>
-                  : <AnswerBox>{Render(item.text)}</AnswerBox>}
+                  ? <QuestionBox>{Render(item.text)}</QuestionBox> : <AnswerBox>{Render(item.text)}</AnswerBox>}
+                {/*// : index === chatList.length - 1*/}
+                {/*//   ? <AnswerBox>{Render(item.text)}<DotTyping loading={loading}/></AnswerBox>*/}
+                {/*//   : <AnswerBox>{Render(item.text)}</AnswerBox>*/}
               </div>
             ))}
-            <AnswerBox className={searchDisable ? styles.answerBlock: styles.answerHidden}>
+            <AnswerBox className={searchDisable && loading ? styles.answerBlock: styles.answerHidden}>
               <DotTyping loading={searchDisable}/>
             </AnswerBox>
-          {/*<AnswerBox className={true ? styles.answerBlock: styles.answerHidden}>*/}
-          {/*  <DotTyping loading={true}/>*/}
-          {/*</AnswerBox>*/}
             <div ref={bottomRef}></div>
           </div>
         {/*</div>*/}
