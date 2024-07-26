@@ -18,18 +18,24 @@ export function ChatBoxButton({
 }) {
   const [hiddenTip, setHiddenTip] = useState(true);
   const [hiddenChat, setHiddenChat] = useState(true);
-  const [readyToShow, setReadyToShow] = useState(false);
+  const [tipReadyToShow, setTipReadyToShow] = useState(false);
   useEffect(() => {
     const chainGPTTalked = localStorage.getItem('chainGPT');
     if (!chainGPTTalked) {
       setHiddenTip(false);
       localStorage.setItem('chainGPT', 'chainGPT talked');
     }
-    setReadyToShow(true);
+    setTimeout(() => {
+      setTipReadyToShow(true);
+    }, 5000);
   }, []);
 
+  const showTip: boolean = !hiddenTip && tipReadyToShow;
+
   return <div className={`${preflightStyles.tailwindContainer} ${styles.chatCon}`}>
-    { hiddenTip ? '' : readyToShow && <div className={styles.tipCon}><TipBox /></div>}
+    <div className={`${styles.tipConPosition} ${hiddenTip && styles.tipConPositionHidden}`}>
+      <div className={`${styles.tipCon} ${showTip && styles.tipConShow}`}><TipBox /></div>
+    </div>
     <div
       className={`${styles.chatBlock} ${styles.logoCon} ${!hiddenChat && styles.logoConHidden}`}
       onClick={() => {
