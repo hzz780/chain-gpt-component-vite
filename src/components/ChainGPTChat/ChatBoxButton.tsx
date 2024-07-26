@@ -23,7 +23,9 @@ export function ChatBoxButton({
     const chainGPTTalked = localStorage.getItem('chainGPT');
     if (!chainGPTTalked) {
       setHiddenTip(false);
-      localStorage.setItem('chainGPT', 'chainGPT talked');
+      setTimeout(() => {
+        localStorage.setItem('chainGPT', 'chainGPT talked');
+      }, 200);
     }
     setTimeout(() => {
       setTipReadyToShow(true);
@@ -41,6 +43,7 @@ export function ChatBoxButton({
       onClick={() => {
         setHiddenTip(true);
         setHiddenChat(false);
+        localStorage.setItem('chainGPT', 'chainGPT talked');
       }}><ChainGPTLogo className={`${styles.cursorPointer} ${styles.logo}`}/></div>
     <div className={`${styles.chatBlock} ${styles.chatBoxCon} ${hiddenChat && styles.chatBoxConHidden}`}>
       <CustomChatBox

@@ -1,6 +1,6 @@
 {
   "name": "chaingpt-component",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "",
   "type": "module",
   "main": "dist/my-library.umd.js",
